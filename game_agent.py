@@ -252,6 +252,8 @@ class MinimaxPlayer(IsolationPlayer):
                 testing.
         """    
         # TODO: finish this function!
+
+        
         def terminal_test(self,game):
             if self.time_left() < self.TIMER_THRESHOLD:
                 raise SearchTimeout()
@@ -281,9 +283,18 @@ class MinimaxPlayer(IsolationPlayer):
 
 
 
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+        if (len(game.get_legal_moves()) == 0):
+            return (-1,-1)
+        else:
+            return max(game.get_legal_moves(),
+                          key=lambda a: min_value(self,game.forecast_move(a),depth - 1))
 
-        return max(game.get_legal_moves(),
-                      key=lambda a: min_value(self,game.forecast_move(a),depth - 1))
+
+
+
+        
 
 
 
