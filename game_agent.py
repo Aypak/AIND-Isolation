@@ -56,7 +56,7 @@ def custom_score(game, player):
     #Multiply opponent moves by a constant to make difference between my_moves and opponent_moves return lower values 
     #Makes player more aggressive and tries to gain the initiative
 
-    return my_moves - 2 * opponent_moves
+    return float(my_moves - 2 * opponent_moves)
 
 
 def custom_score_2(game, player):
@@ -96,7 +96,7 @@ def custom_score_2(game, player):
     #Multiply my_moves by a constant to make difference between my_moves and opponent_moves return higher values 
     #Makes player more defensive and reactive
 
-    return 2 * my_moves - opponent_moves
+    return float(2 * my_moves - opponent_moves)
 
 
 def custom_score_3(game, player):
@@ -364,10 +364,12 @@ class AlphaBetaPlayer(IsolationPlayer):
         self.time_left = time_left
 
         # TODO: finish this function!
-        best_move=(3,3)
+
+        # Return (-1,-1) as best move if timeout or no legal moves available
+        best_move=(-1,-1)
         try:
+            # Iterative deepening in alphabeta search
             depth = 0
-            scores = dict()
             while True:
                 depth = depth + 1
                 best_move = self.alphabeta(game, depth)
@@ -434,8 +436,10 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         # TODO: finish this function!
         def terminal_test(self,game):
+        # Check if timeout threshold reached and raise exception if it is
             if self.time_left() < self.TIMER_THRESHOLD:
                 raise SearchTimeout()
+            # if not timeout return true if no legal moves left or false if there are still legal moves on the board
             return not bool(game.get_legal_moves())
             
 
